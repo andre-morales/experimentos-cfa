@@ -24,11 +24,16 @@ html = '''<!DOCTYPE html>
 async def hello(request):
     return html, 200, {'Content-Type': 'text/html'}
 
+@app.route('/res/<path:path>')
+async def serve(req, path):
+    fPath = 'res/' + path
+    print(fPath)
+    return send_file(fPath)
 
 @app.route('/shutdown')
 async def shutdown(request):
     request.app.shutdown()
     return 'The server is shutting down...'
 
-
-app.run(debug=True)
+def run(port):
+    app.run(debug=True, port=port)
